@@ -48,6 +48,7 @@ const DEFAULT = {
     tone: 'ink',        // 自定义图使用浅色还是深色文字
     pos: 'top',         // 收起时的取景：top / center / bottom（展开后自动居中）
     paper: 0.86,        // 纸底不透明度
+    alpha: 1,           // 整块背景透明度（0=全透明，1=不透明）
     dim: 0.12,          // 图片遮罩
     blur: 0,            // 背景模糊
     radius: 16,         // 圆角
@@ -55,7 +56,7 @@ const DEFAULT = {
     byChar: {},         // avatar -> 局部设置
 };
 
-const NUM_KEYS = ['paper', 'dim', 'blur', 'radius'];
+const NUM_KEYS = ['paper', 'alpha', 'dim', 'blur', 'radius'];
 
 /* ------------------------------------------------------------------ */
 /* 存储                                                                */
@@ -165,6 +166,7 @@ function apply() {
     el.style.setProperty('--nb-img2', e.preset === 'bw' ? `url("${ASSETS.paper}")` : 'none');
     el.style.setProperty('--nb-pos', e.pos === 'top' || e.pos === 'bottom' ? e.pos : 'center');
     el.style.setProperty('--nb-paper-a', String(e.paper));
+    el.style.setProperty('--nb-alpha', String(e.alpha));
     el.style.setProperty('--nb-dim', String(e.dim));
     el.style.setProperty('--nb-blur', e.blur + 'px');
     el.style.setProperty('--nb-radius', e.radius + 'px');
@@ -174,7 +176,7 @@ function apply() {
 function clearSkin(el) {
     if (!el) return;
     for (const t of ['ink', 'night', 'sakura', 'plain']) el.classList.remove('nb-theme-' + t);
-    for (const v of ['--nb-img', '--nb-pos', '--nb-paper-a', '--nb-dim', '--nb-blur', '--nb-radius']) {
+    for (const v of ['--nb-img', '--nb-img2', '--nb-pos', '--nb-paper-a', '--nb-alpha', '--nb-dim', '--nb-blur', '--nb-radius']) {
         el.style.removeProperty(v);
     }
     delete el.dataset.nbSkin;
@@ -328,7 +330,8 @@ function syncUI() {
     for (const k of NUM_KEYS) {
         const input = q('nb-' + k);
         if (input) {
-            input.value = String(e[k]);
+            const ratio = k === 'paper' || k === 'alpha' || k === 'dim';
+            input.value = String(ratio ? Math.round(e[k] * 100) : e[k]);
             const lab = q('nb-' + k + '-v');
             if (lab) lab.textContent = k === 'blur' ? e[k] + 'px' : k === 'radius' ? e[k] + 'px' : Math.round(e[k] * 100) + '%';
         }
@@ -405,7 +408,7 @@ async function initSettings() {
         q('nb-' + k)?.addEventListener('input', (ev) => {
             const s = loadRaw();
             const raw = Number(ev.target.value);
-            const val = k === 'paper' || k === 'dim' ? raw / 100 : raw;
+            const val = k === 'paper' || k === 'alpha' || k === 'dim' ? raw / 100 : raw;
             setTarget(s, { [k]: val });
             const label = q('nb-' + k + '-v');
             if (label) label.textContent = k === 'blur' || k === 'radius' ? raw + 'px' : raw + '%';

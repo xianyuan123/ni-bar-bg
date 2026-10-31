@@ -14,6 +14,8 @@ html body #ni-storybar.ni-tb-shell {
     --nb-img: none;
     --nb-pos: top;
     --nb-paper-a: 0.86;
+    --nb-alpha: 1;
+    --nb-paper-a2: calc(var(--nb-paper-a) * var(--nb-alpha));
     --nb-serif: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC",
         "Songti TC", "SimSun", "Microsoft YaHei", "PingFang SC", serif;
     /* 兜底配色 = 水墨（万一主题 class 没挂上也不会变成全透明） */
@@ -36,6 +38,24 @@ html body #ni-storybar.ni-tb-shell {
     --nb-card-shadow: 0 6px 18px rgba(80, 62, 38, 0.10);
 
     position: relative !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: 1px solid var(--nb-line) !important;
+    border-radius: var(--nb-radius) !important;
+    box-shadow: var(--nb-shell-shadow) !important;
+    overflow: hidden !important;
+    isolation: isolate !important;
+    font-family: var(--nb-serif) !important;
+}
+
+/* 底图单独一层：--nb-alpha 就是「背景透明度」滑杆控制的那个 0~1 */
+html body #ni-storybar.ni-tb-shell::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    border-radius: inherit !important;
     background-color: var(--nb-shell-bg) !important;
     background-image:
         linear-gradient(180deg,
@@ -45,23 +65,25 @@ html body #ni-storybar.ni-tb-shell {
         var(--nb-img) !important;
     background-size: cover, cover !important;
     background-position: center, center var(--nb-pos) !important;
-    background-repeat: no-repeat, no-repeat !important;    border: 1px solid var(--nb-line) !important;
-    border-radius: var(--nb-radius) !important;
-    box-shadow: var(--nb-shell-shadow) !important;
+    background-repeat: no-repeat, no-repeat !important;
+    opacity: var(--nb-alpha) !important;
     -webkit-backdrop-filter: blur(var(--nb-blur)) !important;
     backdrop-filter: blur(var(--nb-blur)) !important;
-    overflow: hidden !important;
-    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell > * {
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 /* 展开后自动居中取景：收起态按 --nb-pos 取景，展开时露出画面中部 */
-html body #ni-storybar.ni-tb-shell:has(> .ni-tb-body.open) {
+html body #ni-storybar.ni-tb-shell:has(> .ni-tb-body.open)::before {
     background-position: center, center center !important;
 }
 
 /* 展开时顶栏纸帘加厚，避免压在人物暗部上看不清 */
 html body #ni-storybar.ni-tb-shell:has(> .ni-tb-body.open) .ni-tb-bar {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.78)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.78)) !important;
 }
 
 /* ---------- 2. 四套配色（浅墨 / 夜墨 / 樱粉 / 素纸） ---------- */
@@ -86,6 +108,7 @@ html body #ni-storybar.ni-tb-shell.nb-theme-ink {
 }
 
 html body #ni-storybar.ni-tb-shell.nb-theme-night {
+    --nb-ico-color: #ece5d6;
     --nb-shell-bg: #1a1f26;
     --nb-paper-rgb: 24, 29, 36;
     --nb-scrim-rgb: 8, 12, 18;
@@ -144,12 +167,26 @@ html body #ni-storybar.ni-tb-shell.nb-theme-bw {
     --ni-pivot-text: #55524c;
 }
 
-/* 框架内的内容区：铺一层宣纸山水底纹 */
-html body #ni-storybar.ni-tb-shell .ni-tb-body {
+/* 框架内的内容区：宣纸山水底纹以正片叠底压在整幅底图上，
+   这样人物在整块面板里都看得见，而纸纹又给文字提供底子 */
+html body #ni-storybar.ni-tb-shell::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    border-radius: inherit !important;
     background-image: var(--nb-img2, none) !important;
     background-size: cover !important;
     background-position: center bottom !important;
     background-repeat: no-repeat !important;
+    mix-blend-mode: multiply !important;
+    opacity: var(--nb-alpha) !important;
+    pointer-events: none !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-body {
+    background-image: none !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.30)) !important;
 }
 
 /* 黑白主题：纸帘薄一点，让底纹透出来 */
@@ -159,19 +196,26 @@ html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-carousel-wrap,
 html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-infer-block,
 html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-off-block,
 html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-section-hd {
-    background-color: rgba(var(--nb-paper-rgb), 0.50) !important;
+    background-color: rgba(var(--nb-paper-rgb), 0.78) !important;
 }
 
 html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-scard {
-    background-color: rgba(var(--nb-paper-rgb), 0.88) !important;
+    background-color: rgba(var(--nb-paper-rgb), 0.94) !important;
+}
+
+/* 黑白主题：节点行文字下面垫一层薄纸，压在人物上也读得清 */
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-np-row,
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-sp-row {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.52)) !important;
 }
 
 /* 黑白主题：行底色改成墨灰，只在印章/激活处留朱砂 */
 html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-np-row:hover {
-    background-color: rgba(20, 20, 20, 0.035) !important;
+    background-image: linear-gradient(rgba(20, 20, 20, 0.045), rgba(20, 20, 20, 0.045)) !important;
 }
 html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-np-row.active {
-    background-color: rgba(20, 20, 20, 0.05) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.80)) !important;
+    background-image: linear-gradient(rgba(20, 20, 20, 0.05), rgba(20, 20, 20, 0.05)) !important;
 }
 html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-np-type,
 html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-sc-type {
@@ -222,7 +266,7 @@ html body #ni-storybar.ni-tb-shell.nb-theme-plain {
 
 /* ---------- 3. 顶栏 ---------- */
 html body #ni-storybar.ni-tb-shell .ni-tb-bar {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.40)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.40)) !important;
     background-image: none !important;
     border-bottom: 1px solid var(--nb-line) !important;
     padding: 10px 14px !important;
@@ -253,9 +297,9 @@ html body #ni-storybar.ni-tb-shell .ni-tb-curtitle {
     color: var(--nb-ink) !important;
     background-color: transparent !important;
     background-image: linear-gradient(90deg,
-        rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.86)) 0%,
-        rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.86)) 58%,
-        rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.04)) 100%);
+        rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.86)) 0%,
+        rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.86)) 58%,
+        rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.04)) 100%);
     border-left: 2px solid var(--nb-accent);
     border-radius: 0 2px 2px 0;
     padding: 1px 10px 1px 7px;
@@ -269,7 +313,7 @@ html body #ni-storybar.ni-tb-shell .ni-tb-curtitle {
 
 html body #ni-storybar.ni-tb-shell .ni-tb-meta {
     color: var(--nb-ink-3) !important;
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.62));
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.62));
     border-radius: 3px;
     padding: 1px 5px;
     box-sizing: border-box;
@@ -285,7 +329,7 @@ html body #ni-storybar.ni-tb-shell .ni-tb-chevron {
 
 /* ---------- 4. 工具条 + 按钮 ---------- */
 html body #ni-storybar.ni-tb-shell .ni-tb-selrow {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.92)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.92)) !important;
     background-image: none !important;
     border-bottom: 1px solid var(--nb-line) !important;
     gap: 7px !important;
@@ -295,7 +339,7 @@ html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn,
 html body #ni-storybar.ni-tb-shell .ni-tb-btn-free,
 html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause,
 html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 1.06)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 1.06)) !important;
     background-image: none !important;
     border: 1px solid var(--nb-line) !important;
     border-radius: 999px !important;
@@ -349,7 +393,7 @@ html body #ni-storybar.ni-tb-shell .ni-tb-sel-sep {
 
 /* ---------- 5. 下拉面板 / 阶段列表 ---------- */
 html body #ni-storybar.ni-tb-shell .ni-tb-drop-panel {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 1.02)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 1.02)) !important;
     background-image: none !important;
     border-bottom: 1px solid var(--nb-line) !important;
 }
@@ -397,7 +441,7 @@ html body #ni-storybar.ni-tb-shell #ni-tb-node-panel::-webkit-scrollbar-thumb {
 }
 
 html body #ni-storybar.ni-tb-shell .ni-tb-section-hd {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.72)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.72)) !important;
     border-bottom: 1px solid var(--nb-line) !important;
 }
 
@@ -417,7 +461,7 @@ html body #ni-storybar.ni-tb-shell .ni-tb-section-label {
 }
 
 html body #ni-storybar.ni-tb-shell .ni-tb-section-count {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 1.05)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 1.05)) !important;
     border: 1px solid var(--nb-line) !important;
     color: var(--nb-ink-3) !important;
     font-family: var(--nb-serif) !important;
@@ -492,13 +536,13 @@ html body #ni-storybar.ni-tb-shell .ni-tb-sc-type.pivot {
 
 /* ---------- 7. 卡片轮播 ---------- */
 html body #ni-storybar.ni-tb-shell .ni-tb-carousel-wrap {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.48)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.48)) !important;
     background-image: none !important;
     border-top: 1px solid var(--nb-line) !important;
 }
 
 html body #ni-storybar.ni-tb-shell .ni-tb-scard {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.98)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.98)) !important;
     background-image: none !important;
     border: 1px solid var(--nb-line) !important;
     border-radius: 10px !important;
@@ -506,19 +550,19 @@ html body #ni-storybar.ni-tb-shell .ni-tb-scard {
 }
 
 html body #ni-storybar.ni-tb-shell .ni-tb-scard.active {
-    background-color: rgba(var(--nb-paper-rgb), var(--nb-paper-a)) !important;
+    background-color: rgba(var(--nb-paper-rgb), var(--nb-paper-a2)) !important;
     border-color: rgba(var(--nb-accent-rgb), 0.55) !important;
     box-shadow: 0 8px 24px rgba(var(--nb-accent-rgb), 0.16), var(--nb-card-shadow) !important;
 }
 
 html body #ni-storybar.ni-tb-shell .ni-tb-scard.side-prev,
 html body #ni-storybar.ni-tb-shell .ni-tb-scard.side-next {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.82)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.82)) !important;
     opacity: 0.62 !important;
 }
 
 html body #ni-storybar.ni-tb-shell .ni-tb-scard.far {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.7)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.7)) !important;
     opacity: 0.18 !important;
 }
 
@@ -607,7 +651,7 @@ html body #ni-storybar.ni-tb-shell .ni-tb-stage-done-badge {
 
 /* ---------- 8. 推理块 ---------- */
 html body #ni-storybar.ni-tb-shell .ni-tb-infer-block {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.86)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.86)) !important;
     background-image: none !important;
     border-top: 1px solid var(--nb-line) !important;
 }
@@ -678,7 +722,7 @@ html body #ni-storybar.ni-tb-shell .ni-tb-infer-desc {
 
 /* ---------- 9. 后台动向块 ---------- */
 html body #ni-storybar.ni-tb-shell .ni-tb-off-block {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.86)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.86)) !important;
     background-image: none !important;
     border-top: 1px solid var(--nb-line) !important;
 }
@@ -698,7 +742,7 @@ html body #ni-storybar.ni-tb-shell .ni-tb-off-title {
 }
 
 html body #ni-storybar.ni-tb-shell .ni-tb-off-run {
-    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 1.05)) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 1.05)) !important;
     border: 1px solid var(--nb-line) !important;
     color: var(--nb-ink-2) !important;
     font-family: var(--nb-serif) !important;
@@ -797,18 +841,18 @@ html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise::before,
 html body #ni-storybar.ni-tb-shell .ni-tb-btn-free::before,
 html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause::before {
     content: "" !important; display: block !important; flex: 0 0 auto;
-    width: 15px !important; height: 15px !important;
-    background-color: currentColor;
+    width: 17px !important; height: 17px !important;
+    background-color: var(--nb-ico-color, #2b2723) !important;
     -webkit-mask: var(--nb-ico) center / contain no-repeat;
     mask: var(--nb-ico) center / contain no-repeat;
 }
 
-html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn#ni-tb-stage-btn { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%20%3Cpath%20d%3D%27M4%206.4v11.2%27%2F%3E%3Cpath%20d%3D%27M20%206.4v11.2%27%2F%3E%20%3Cpath%20d%3D%27M6.3%208.3h11.4v7.4H6.3z%27%2F%3E%20%3Cpath%20d%3D%27M9.2%2013.4l1.9-2.2%201.4%201.5%201.2-1.3%201.6%202%27%2F%3E%3C%2Fsvg%3E"); }
-html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn#ni-tb-node-btn  { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%20%3Cpath%20d%3D%27M8.4%204.8h7.2a1.5%201.5%200%200%201%200%203H8.4a1.5%201.5%200%200%201%200-3z%27%2F%3E%20%3Cpath%20d%3D%27M8.4%2016.2h7.2a1.5%201.5%200%200%201%200%203H8.4a1.5%201.5%200%200%201%200-3z%27%2F%3E%20%3Cpath%20d%3D%27M12%207.9v8.3%27%2F%3E%3C%2Fsvg%3E"); }
-html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise            { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%20%3Cpath%20d%3D%27M4%2015.4h9.6a2.9%202.9%200%200%200%20.3-5.8%204.3%204.3%200%200%200-8.2-1A2.7%202.7%200%200%200%204%2015.4z%27%2F%3E%20%3Cpath%20d%3D%27M12.6%2019.1h5.5a2.1%202.1%200%200%200%200-4.2%27%2F%3E%3C%2Fsvg%3E"); }
-html body #ni-storybar.ni-tb-shell .ni-tb-btn-free                { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%20%3Cpath%20d%3D%27M5.2%207.4%206.7%203.3l3.2%202.2%27%2F%3E%3Cpath%20d%3D%27M18.8%207.4%2017.3%203.3l-3.2%202.2%27%2F%3E%20%3Cpath%20d%3D%27M5.2%208.4c0%205.7%203%209.2%206.8%209.2s6.8-3.5%206.8-9.2%27%2F%3E%20%3Cpath%20d%3D%27M5.2%208.4c1.5-.9%203.4-1.3%206.8-1.3s5.3.4%206.8%201.3%27%2F%3E%20%3Ccircle%20cx%3D%279.3%27%20cy%3D%2712.3%27%20r%3D%27.95%27%20fill%3D%27%23000%27%20stroke%3D%27none%27%2F%3E%20%3Ccircle%20cx%3D%2714.7%27%20cy%3D%2712.3%27%20r%3D%27.95%27%20fill%3D%27%23000%27%20stroke%3D%27none%27%2F%3E%20%3Cpath%20d%3D%27M12%2015.1v1%27%2F%3E%3Cpath%20d%3D%27M10.9%2016.6h2.2%27%2F%3E%3C%2Fsvg%3E"); }
-html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause               { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.9%27%20stroke-linecap%3D%27round%27%3E%20%3Cpath%20d%3D%27M9.6%206.6v10.8%27%2F%3E%3Cpath%20d%3D%27M14.4%206.6v10.8%27%2F%3E%3C%2Fsvg%3E"); }
-html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause.paused        { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27%23000%27%20stroke%3D%27none%27%3E%20%3Cpath%20d%3D%27M8.6%205.9v12.2l9.8-6.1z%27%2F%3E%3C%2Fsvg%3E"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn#ni-tb-stage-btn { --nb-ico: url("icons/painting.webp"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn#ni-tb-node-btn  { --nb-ico: url("icons/scroll.webp"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise            { --nb-ico: url("icons/cloud.webp"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free                { --nb-ico: url("icons/fox.webp"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause               { --nb-ico: url("icons/pause.webp"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause.paused        { --nb-ico: url("icons/play.webp"); }
 
 /* 点击/hover 时墨色加深，激活态用朱砂 */
 html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn:hover::before,
