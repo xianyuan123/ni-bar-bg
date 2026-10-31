@@ -1,0 +1,108 @@
+<div class="ni-bar-bg-settings">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b>状态栏·水墨皮肤</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        <div class="inline-drawer-content">
+            <div class="nb-hint">
+                给「小说注入器」的状态栏整条换皮：底图、文字底、药丸、按钮、卡片、标签一起变。<br>
+                不改动原插件文件，原插件更新不会冲掉皮肤。
+            </div>
+
+            <div class="nb-row" style="margin-top:10px">
+                <label class="checkbox_label">
+                    <input type="checkbox" id="nb-enabled">
+                    <span>启用皮肤</span>
+                </label>
+            </div>
+
+            <div class="nb-block">
+                <div class="nb-hint" style="margin-bottom:6px">背景预设</div>
+                <div class="nb-grid" id="nb-presets"></div>
+            </div>
+
+            <div class="nb-block">
+                <div class="nb-hint" style="margin-bottom:6px">自定义背景（选一张你自己的图）</div>
+                <div class="nb-row">
+                    <input type="file" id="nb-file" class="nb-file" accept="image/*">
+                </div>
+                <div class="nb-row">
+                    <input type="text" id="nb-url" class="text_pole" placeholder="或粘贴图片网址 https://...">
+                    <div class="menu_button" id="nb-urlload">用这张</div>
+                </div>
+                <div class="nb-row">
+                    <div class="menu_button" id="nb-clearimg">清除自定义图</div>
+                </div>
+                <div class="nb-row" id="nb-tone-row" style="display:none">
+                    <label class="nb-k">文字深浅</label>
+                    <select id="nb-tone" class="text_pole">
+                        <option value="day">浅色底 · 墨字（适合浅色图）</option>
+                        <option value="night">深色底 · 米字（适合深色图）</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="nb-block">
+                <div class="nb-row">
+                    <label class="nb-k">底图位置</label>
+                    <select id="nb-pos" class="text_pole">
+                        <option value="center">居中（画面中部最干净）</option>
+                        <option value="top">靠上（露出顶部装饰）</option>
+                        <option value="bottom" selected>靠下（露出底部装饰·默认）</option>
+                    </select>
+                </div>
+                <div class="nb-row">
+                    <label class="nb-k">纸底浓淡</label>
+                    <input type="range" id="nb-paper" min="30" max="100" step="1" value="86">
+                    <span class="nb-v" id="nb-paper-v">86%</span>
+                </div>
+                <div class="nb-row">
+                    <label class="nb-k">压暗底图</label>
+                    <input type="range" id="nb-dim" min="0" max="60" step="1" value="12">
+                    <span class="nb-v" id="nb-dim-v">12%</span>
+                </div>
+                <div class="nb-row">
+                    <label class="nb-k">背景模糊</label>
+                    <input type="range" id="nb-blur" min="0" max="10" step="1" value="0">
+                    <span class="nb-v" id="nb-blur-v">0px</span>
+                </div>
+                <div class="nb-row">
+                    <label class="nb-k">圆角</label>
+                    <input type="range" id="nb-radius" min="0" max="24" step="1" value="16">
+                    <span class="nb-v" id="nb-radius-v">16px</span>
+                </div>
+            </div>
+
+            <div class="nb-block">
+                <div class="nb-row">
+                    <label class="checkbox_label">
+                        <input type="checkbox" id="nb-perchar">
+                        <span>按角色卡分别设置</span>
+                    </label>
+                </div>
+                <div class="nb-hint" id="nb-who">当前没有打开角色卡</div>
+                <div class="nb-hint" id="nb-ownstate"></div>
+                <div class="nb-row" style="margin-top:6px">
+                    <div class="menu_button" id="nb-chardel">删除该角色的独立设置</div>
+                </div>
+                <div class="nb-hint">
+                    勾选后，在「该角色已单独设置」状态下调整下面的选项，只会影响当前角色。
+                </div>
+            </div>
+
+            <div class="nb-block">
+                <div class="nb-hint" style="margin-bottom:4px">预览</div>
+                <div class="nb-preview" id="nb-preview">
+                    <span class="nb-p-pill">连载中</span>
+                    <span class="nb-p-ttl">第一章 · 落梅时节</span>
+                    <span class="nb-p-meta">3/8</span>
+                </div>
+            </div>
+
+            <div class="nb-row" style="margin-top:10px">
+                <div class="menu_button" id="nb-reset">恢复默认</div>
+            </div>
+        </div>
+    </div>
+</div>

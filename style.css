@@ -1,0 +1,699 @@
+/* ============================================================
+   ni-bar-bg — 状态栏·水墨皮肤 (SillyTavern third-party extension)
+   给 novel-injector 的 #ni-storybar 整条面板换皮：底图 + 文字底 +
+   药丸/按钮/卡片/标签/滚动条，全部按「动漫水墨国风」重绘。
+   所有覆盖都带 !important 且提高选择器权重，用来压过
+   novel-injector 运行时注入的 <style id="ni-tb-injected-css">。
+   ============================================================ */
+
+/* ---------- 1. 几何与默认值 ---------- */
+html body #ni-storybar.ni-tb-shell {
+    --nb-blur: 0px;
+    --nb-radius: 16px;
+    --nb-dim: 0.12;
+    --nb-img: none;
+    --nb-pos: bottom;
+    --nb-paper-a: 0.86;
+    --nb-serif: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC",
+        "Songti TC", "SimSun", "Microsoft YaHei", "PingFang SC", serif;
+    /* 兜底配色 = 水墨（万一主题 class 没挂上也不会变成全透明） */
+    --nb-shell-bg: #f6f1e6;
+    --nb-paper-rgb: 253, 250, 243;
+    --nb-scrim-rgb: 250, 246, 236;
+    --nb-ink: #2b2723;
+    --nb-ink-2: #565049;
+    --nb-ink-3: #8a8478;
+    --nb-line: rgba(150, 120, 70, 0.30);
+    --nb-line-strong: rgba(150, 120, 70, 0.52);
+    --nb-accent: #b23b32;
+    --nb-accent-rgb: 178, 59, 50;
+    --nb-jade: #5c8577;
+    --nb-jade-rgb: 92, 133, 119;
+    --nb-indigo: #3f5a72;
+    --nb-indigo-rgb: 63, 90, 114;
+    --nb-ochre: #a97a3c;
+    --nb-shell-shadow: 0 10px 26px rgba(80, 62, 38, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    --nb-card-shadow: 0 6px 18px rgba(80, 62, 38, 0.10);
+
+    position: relative !important;
+    background-color: var(--nb-shell-bg) !important;
+    background-image:
+        linear-gradient(180deg,
+            rgba(var(--nb-scrim-rgb), calc(var(--nb-dim) * 0.45)) 0%,
+            rgba(var(--nb-scrim-rgb), var(--nb-dim)) 46%,
+            rgba(var(--nb-scrim-rgb), calc(var(--nb-dim) * 0.45)) 100%),
+        var(--nb-img) !important;
+    background-size: cover, cover !important;
+    background-position: center, center var(--nb-pos) !important;
+    background-repeat: no-repeat, no-repeat !important;    border: 1px solid var(--nb-line) !important;
+    border-radius: var(--nb-radius) !important;
+    box-shadow: var(--nb-shell-shadow) !important;
+    -webkit-backdrop-filter: blur(var(--nb-blur)) !important;
+    backdrop-filter: blur(var(--nb-blur)) !important;
+    overflow: hidden !important;
+    font-family: var(--nb-serif) !important;
+}
+
+/* 展开后自动居中取景：收起态按 --nb-pos 取景，展开时露出画面中部 */
+html body #ni-storybar.ni-tb-shell:has(> .ni-tb-body.open) {
+    background-position: center, center center !important;
+}
+
+/* ---------- 2. 四套配色（浅墨 / 夜墨 / 樱粉 / 素纸） ---------- */
+html body #ni-storybar.ni-tb-shell.nb-theme-ink {
+    --nb-shell-bg: #f6f1e6;
+    --nb-paper-rgb: 253, 250, 243;
+    --nb-scrim-rgb: 250, 246, 236;
+    --nb-ink: #2b2723;
+    --nb-ink-2: #565049;
+    --nb-ink-3: #8a8478;
+    --nb-line: rgba(150, 120, 70, 0.30);
+    --nb-line-strong: rgba(150, 120, 70, 0.52);
+    --nb-accent: #b23b32;
+    --nb-accent-rgb: 178, 59, 50;
+    --nb-jade: #5c8577;
+    --nb-jade-rgb: 92, 133, 119;
+    --nb-indigo: #3f5a72;
+    --nb-indigo-rgb: 63, 90, 114;
+    --nb-ochre: #a97a3c;
+    --nb-shell-shadow: 0 10px 26px rgba(80, 62, 38, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    --nb-card-shadow: 0 6px 18px rgba(80, 62, 38, 0.10);
+}
+
+html body #ni-storybar.ni-tb-shell.nb-theme-night {
+    --nb-shell-bg: #1a1f26;
+    --nb-paper-rgb: 24, 29, 36;
+    --nb-scrim-rgb: 8, 12, 18;
+    --nb-ink: #ece5d6;
+    --nb-ink-2: #bcb5a6;
+    --nb-ink-3: #8d8878;
+    --nb-line: rgba(198, 168, 110, 0.28);
+    --nb-line-strong: rgba(198, 168, 110, 0.48);
+    --nb-accent: #d06a5c;
+    --nb-accent-rgb: 208, 106, 92;
+    --nb-jade: #7fb3a2;
+    --nb-jade-rgb: 127, 179, 162;
+    --nb-indigo: #8fb0cc;
+    --nb-indigo-rgb: 143, 176, 204;
+    --nb-ochre: #c9a86a;
+    --nb-shell-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 236, 200, 0.10);
+    --nb-card-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+html body #ni-storybar.ni-tb-shell.nb-theme-sakura {
+    --nb-shell-bg: #fdf2f4;
+    --nb-paper-rgb: 255, 250, 251;
+    --nb-scrim-rgb: 255, 244, 247;
+    --nb-ink: #4a3138;
+    --nb-ink-2: #7a5b64;
+    --nb-ink-3: #a98a93;
+    --nb-line: rgba(198, 120, 140, 0.28);
+    --nb-line-strong: rgba(198, 120, 140, 0.5);
+    --nb-accent: #c2566e;
+    --nb-accent-rgb: 194, 86, 110;
+    --nb-jade: #6f9a8d;
+    --nb-jade-rgb: 111, 154, 141;
+    --nb-indigo: #6b7f9e;
+    --nb-indigo-rgb: 107, 127, 158;
+    --nb-ochre: #b8894e;
+    --nb-shell-shadow: 0 10px 26px rgba(140, 80, 100, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    --nb-card-shadow: 0 6px 18px rgba(140, 80, 100, 0.10);
+}
+
+html body #ni-storybar.ni-tb-shell.nb-theme-plain {
+    --nb-shell-bg: #f5f1e8;
+    --nb-paper-rgb: 253, 250, 243;
+    --nb-scrim-rgb: 245, 241, 232;
+    --nb-ink: #2b2723;
+    --nb-ink-2: #565049;
+    --nb-ink-3: #8a8478;
+    --nb-line: rgba(150, 120, 70, 0.26);
+    --nb-line-strong: rgba(150, 120, 70, 0.48);
+    --nb-accent: #b23b32;
+    --nb-accent-rgb: 178, 59, 50;
+    --nb-jade: #5c8577;
+    --nb-jade-rgb: 92, 133, 119;
+    --nb-indigo: #3f5a72;
+    --nb-indigo-rgb: 63, 90, 114;
+    --nb-ochre: #a97a3c;
+    --nb-shell-shadow: 0 8px 20px rgba(80, 62, 38, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    --nb-card-shadow: 0 4px 14px rgba(80, 62, 38, 0.08);
+}
+
+/* ---------- 3. 顶栏 ---------- */
+html body #ni-storybar.ni-tb-shell .ni-tb-bar {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.40)) !important;
+    background-image: none !important;
+    border-bottom: 1px solid var(--nb-line) !important;
+    padding: 10px 14px !important;
+    gap: 7px !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-pin {
+    width: 7px !important;
+    height: 7px !important;
+    border-radius: 1px !important;
+    background: var(--nb-accent) !important;
+    box-shadow: 0 0 0 1.5px rgba(var(--nb-accent-rgb), 0.26) !important;
+    transform: rotate(45deg);
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-status {
+    background-color: rgba(var(--nb-accent-rgb), 0.10) !important;
+    color: var(--nb-accent) !important;
+    border: 1px solid rgba(var(--nb-accent-rgb), 0.42) !important;
+    border-radius: 3px !important;
+    padding: 1px 6px !important;
+    letter-spacing: 0.08em !important;
+    font-family: var(--nb-serif) !important;
+    font-weight: 600 !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-curtitle {
+    color: var(--nb-ink) !important;
+    background-color: transparent !important;
+    background-image: linear-gradient(90deg,
+        rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.86)) 0%,
+        rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.86)) 58%,
+        rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.04)) 100%);
+    border-left: 2px solid var(--nb-accent);
+    border-radius: 0 2px 2px 0;
+    padding: 1px 10px 1px 7px;
+    box-sizing: border-box;
+    flex: 1 1 0;
+    font-family: var(--nb-serif) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    text-shadow: 0 1px 0 rgba(var(--nb-paper-rgb), 0.55);
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-meta {
+    color: var(--nb-ink-3) !important;
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.62));
+    border-radius: 3px;
+    padding: 1px 5px;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    font-family: var(--nb-serif) !important;
+    letter-spacing: 0.03em !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-chevron {
+    color: var(--nb-ink-3) !important;
+    opacity: 0.85 !important;
+}
+
+/* ---------- 4. 工具条 + 按钮 ---------- */
+html body #ni-storybar.ni-tb-shell .ni-tb-selrow {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.92)) !important;
+    background-image: none !important;
+    border-bottom: 1px solid var(--nb-line) !important;
+    gap: 7px !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 1.06)) !important;
+    background-image: none !important;
+    border: 1px solid var(--nb-line) !important;
+    border-radius: 999px !important;
+    color: var(--nb-ink-2) !important;
+    font-family: var(--nb-serif) !important;
+    letter-spacing: 0.02em !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    transition: background-color 0.16s, border-color 0.16s, color 0.16s;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn:hover,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free:hover:not(.loading),
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause:hover,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise:hover {
+    background-color: rgba(var(--nb-accent-rgb), 0.09) !important;
+    border-color: rgba(var(--nb-accent-rgb), 0.45) !important;
+    color: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise {
+    border-style: dashed !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise.active {
+    background-color: rgba(var(--nb-accent-rgb), 0.13) !important;
+    border-color: rgba(var(--nb-accent-rgb), 0.6) !important;
+    border-style: solid !important;
+    color: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free.has-result {
+    background-color: rgba(var(--nb-accent-rgb), 0.11) !important;
+    border-color: rgba(var(--nb-accent-rgb), 0.5) !important;
+    color: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free.loading {
+    opacity: 0.55 !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause.paused {
+    background-color: var(--nb-accent) !important;
+    border-color: var(--nb-accent) !important;
+    color: #fdf8ee !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sel-sep {
+    color: var(--nb-line-strong) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+/* ---------- 5. 下拉面板 / 阶段列表 ---------- */
+html body #ni-storybar.ni-tb-shell .ni-tb-drop-panel {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 1.02)) !important;
+    background-image: none !important;
+    border-bottom: 1px solid var(--nb-line) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sp-row:hover {
+    background-color: rgba(var(--nb-accent-rgb), 0.07) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sp-row.active-stage .ni-tb-sp-name {
+    color: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sp-row.active-stage .ni-tb-sp-dot {
+    background: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sp-dot {
+    background: var(--nb-line-strong) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sp-name {
+    color: var(--nb-ink-2) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sp-list::-webkit-scrollbar-thumb {
+    background: var(--nb-line-strong) !important;
+    border: 1px solid rgba(var(--nb-paper-rgb), 0.9) !important;
+}
+
+/* ---------- 6. 节点面板 ---------- */
+html body #ni-storybar.ni-tb-shell #ni-tb-node-panel {
+    scrollbar-color: var(--nb-line-strong) transparent !important;
+}
+
+html body #ni-storybar.ni-tb-shell #ni-tb-node-panel::-webkit-scrollbar-track {
+    background: transparent !important;
+    border-left: 1px solid var(--nb-line) !important;
+}
+
+html body #ni-storybar.ni-tb-shell #ni-tb-node-panel::-webkit-scrollbar-thumb {
+    background: var(--nb-line-strong) !important;
+    border: 1px solid rgba(var(--nb-paper-rgb), 0.9) !important;
+    border-radius: 6px !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-section-hd {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.72)) !important;
+    border-bottom: 1px solid var(--nb-line) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-section-hd:hover {
+    background-color: rgba(var(--nb-accent-rgb), 0.07) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-section-icon {
+    color: var(--nb-ink-3) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-section-label {
+    color: var(--nb-ink) !important;
+    font-family: var(--nb-serif) !important;
+    letter-spacing: 0.06em !important;
+    font-weight: 600 !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-section-count {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 1.05)) !important;
+    border: 1px solid var(--nb-line) !important;
+    color: var(--nb-ink-3) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-section-count.done-count {
+    background-color: rgba(var(--nb-accent-rgb), 0.10) !important;
+    border-color: rgba(var(--nb-accent-rgb), 0.35) !important;
+    color: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-row:hover {
+    background-color: rgba(var(--nb-accent-rgb), 0.06) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-row.active {
+    background-color: rgba(var(--nb-accent-rgb), 0.12) !important;
+    box-shadow: inset 2px 0 0 var(--nb-accent);
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-dot.done,
+html body #ni-storybar.ni-tb-shell .ni-tb-np-dot.active-dot {
+    background: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-dot.active-dot {
+    box-shadow: 0 0 0 3px rgba(var(--nb-accent-rgb), 0.18) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-dot.todo {
+    background: var(--nb-line-strong) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-title {
+    color: var(--nb-ink-2) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-row.active .ni-tb-np-title {
+    color: var(--nb-ink) !important;
+    font-weight: 600 !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-more {
+    color: var(--nb-accent) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-type {
+    border-radius: 3px !important;
+    font-family: var(--nb-serif) !important;
+    letter-spacing: 0.05em !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-type.main,
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-type.main {
+    background-color: rgba(var(--nb-accent-rgb), 0.13) !important;
+    color: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-type.sub,
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-type.sub {
+    background-color: rgba(var(--nb-jade-rgb), 0.15) !important;
+    color: var(--nb-jade) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-np-type.pivot,
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-type.pivot {
+    background-color: rgba(var(--nb-indigo-rgb), 0.14) !important;
+    color: var(--nb-indigo) !important;
+}
+
+/* ---------- 7. 卡片轮播 ---------- */
+html body #ni-storybar.ni-tb-shell .ni-tb-carousel-wrap {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.48)) !important;
+    background-image: none !important;
+    border-top: 1px solid var(--nb-line) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-scard {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.98)) !important;
+    background-image: none !important;
+    border: 1px solid var(--nb-line) !important;
+    border-radius: 10px !important;
+    box-shadow: var(--nb-card-shadow) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-scard.active {
+    background-color: rgba(var(--nb-paper-rgb), var(--nb-paper-a)) !important;
+    border-color: rgba(var(--nb-accent-rgb), 0.55) !important;
+    box-shadow: 0 8px 24px rgba(var(--nb-accent-rgb), 0.16), var(--nb-card-shadow) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-scard.side-prev,
+html body #ni-storybar.ni-tb-shell .ni-tb-scard.side-next {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.82)) !important;
+    opacity: 0.62 !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-scard.far {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.7)) !important;
+    opacity: 0.18 !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-scard-overlay {
+    background-color: rgba(var(--nb-paper-rgb), 0.84) !important;
+    border-radius: 10px !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-scard-overlay:hover {
+    background-color: rgba(var(--nb-accent-rgb), 0.10) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-done-badge {
+    background-color: rgba(var(--nb-paper-rgb), 0.95) !important;
+    border: 1px solid rgba(var(--nb-accent-rgb), 0.45) !important;
+    border-radius: 3px !important;
+    color: var(--nb-accent) !important;
+    font-family: var(--nb-serif) !important;
+    letter-spacing: 0.08em !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-unarchive-hint {
+    color: rgba(var(--nb-accent-rgb), 0.8) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-num,
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-num-meta {
+    color: var(--nb-ink-3) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-type {
+    border-radius: 3px !important;
+    font-family: var(--nb-serif) !important;
+    letter-spacing: 0.05em !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-title {
+    color: var(--nb-ink) !important;
+    font-family: var(--nb-serif) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-desc {
+    color: var(--nb-ink-2) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-event,
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-fore {
+    color: var(--nb-ink-3) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-event i {
+    color: rgba(var(--nb-accent-rgb), 0.55) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-fore i {
+    color: rgba(var(--nb-indigo-rgb), 0.55) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-check {
+    background-color: rgba(var(--nb-paper-rgb), 0.9) !important;
+    border: 1px solid var(--nb-line-strong) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-check.checked {
+    background-color: var(--nb-accent) !important;
+    border-color: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sc-check.checked i {
+    color: #fdf8ee !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-stage-done-badge {
+    background-color: rgba(var(--nb-accent-rgb), 0.10) !important;
+    border-top: 1px solid rgba(var(--nb-accent-rgb), 0.22) !important;
+    color: var(--nb-accent) !important;
+    font-family: var(--nb-serif) !important;
+    letter-spacing: 0.06em !important;
+}
+
+/* ---------- 8. 推理块 ---------- */
+html body #ni-storybar.ni-tb-shell .ni-tb-infer-block {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.86)) !important;
+    background-image: none !important;
+    border-top: 1px solid var(--nb-line) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-infer-toggle:hover {
+    background-color: rgba(var(--nb-accent-rgb), 0.06) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-infer-toggle.expanded {
+    border-bottom-color: var(--nb-line) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-infer-toggle-label,
+html body #ni-storybar.ni-tb-shell .ni-tb-infer-toggle-icon {
+    color: var(--nb-ink-3) !important;
+    font-family: var(--nb-serif) !important;
+    letter-spacing: 0.05em !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-infer-item:hover {
+    background-color: rgba(var(--nb-accent-rgb), 0.05) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-infer-item {
+    border-bottom-color: var(--nb-line) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-infer-num {
+    background-color: rgba(var(--nb-paper-rgb), 0.95) !important;
+    border: 1px solid var(--nb-line-strong) !important;
+    color: var(--nb-ink-3) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-tag-canon,
+html body #ni-storybar.ni-tb-shell .ni-tb-tag-diverge,
+html body #ni-storybar.ni-tb-shell .ni-tb-tag-break {
+    border-radius: 3px !important;
+    font-family: var(--nb-serif) !important;
+    letter-spacing: 0.06em !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-tag-canon {
+    background-color: rgba(var(--nb-indigo-rgb), 0.14) !important;
+    color: var(--nb-indigo) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-tag-diverge {
+    background-color: rgba(169, 122, 60, 0.16) !important;
+    color: var(--nb-ochre) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-tag-break {
+    background-color: rgba(var(--nb-accent-rgb), 0.13) !important;
+    color: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-infer-title {
+    color: var(--nb-ink) !important;
+    font-family: var(--nb-serif) !important;
+    font-weight: 600 !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-infer-desc {
+    color: var(--nb-ink-2) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+/* ---------- 9. 后台动向块 ---------- */
+html body #ni-storybar.ni-tb-shell .ni-tb-off-block {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.86)) !important;
+    background-image: none !important;
+    border-top: 1px solid var(--nb-line) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-head:hover {
+    background-color: rgba(var(--nb-accent-rgb), 0.06) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-head.expanded {
+    border-bottom: 1px solid var(--nb-line) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-title {
+    color: var(--nb-ink-3) !important;
+    font-family: var(--nb-serif) !important;
+    letter-spacing: 0.05em !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-run {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 1.05)) !important;
+    border: 1px solid var(--nb-line) !important;
+    color: var(--nb-ink-2) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-run:hover {
+    background-color: rgba(var(--nb-accent-rgb), 0.10) !important;
+    border-color: rgba(var(--nb-accent-rgb), 0.45) !important;
+    color: var(--nb-accent) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-chevron {
+    color: var(--nb-ink-3) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-empty {
+    color: var(--nb-ink-3) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-item {
+    border-bottom: 1px solid var(--nb-line) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-sub {
+    color: var(--nb-ink) !important;
+    font-family: var(--nb-serif) !important;
+    font-weight: 600 !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-stage {
+    background-color: rgba(var(--nb-accent-rgb), 0.12) !important;
+    color: var(--nb-accent) !important;
+    border-radius: 3px !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-sum {
+    color: var(--nb-ink-2) !important;
+    font-family: var(--nb-serif) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-del {
+    color: var(--nb-ink-3) !important;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-off-del:hover {
+    color: var(--nb-accent) !important;
+}
+
+/* ---------- 10. 设置页 UI ---------- */
+.nb-block { margin-top: 10px; }
+.nb-row { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+.nb-row > label.nb-k { flex: 0 0 5.5em; font-size: 0.9em; opacity: 0.85; }
+.nb-row input[type="range"] { flex: 1; }
+.nb-row .nb-v { flex: 0 0 3.2em; text-align: right; font-variant-numeric: tabular-nums; opacity: 0.7; }
+.nb-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.nb-thumb {
+    position: relative; height: 62px; border-radius: 8px; overflow: hidden;
+    border: 2px solid transparent; cursor: pointer; background-size: cover; background-position: center;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+.nb-thumb span {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 2px 6px;
+    font-size: 11px; color: #fff; background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+    letter-spacing: 0.08em;
+}
+.nb-thumb.sel { border-color: #b23b32; box-shadow: 0 0 0 2px rgba(178, 59, 50, 0.25); }
+.nb-preview {
+    margin-top: 8px; padding: 9px 12px; border-radius: 12px; display: flex; align-items: center; gap: 7px;
+    background-size: cover; background-position: center; border: 1px solid rgba(150, 120, 70, 0.35);
+    min-height: 44px; overflow: hidden;
+}
+.nb-preview .nb-p-ttl { font-size: 13px; font-weight: 600; flex: 1; }
+.nb-preview .nb-p-pill { font-size: 10px; padding: 1px 6px; border-radius: 3px; border: 1px solid currentColor; }
+.nb-preview .nb-p-meta { font-size: 10px; opacity: 0.7; }
+.nb-hint { font-size: 0.8em; opacity: 0.65; line-height: 1.5; margin-top: 4px; }
+.nb-file { font-size: 0.85em; }
