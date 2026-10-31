@@ -25,10 +25,13 @@ const ASSETS = {
     back: BASE + 'assets/ink-back.webp',
     night: BASE + 'assets/night.webp',
     sakura: BASE + 'assets/sakura.webp',
+    bw: BASE + 'assets/ink-bw.webp',
+    paper: BASE + 'assets/paper-bw.webp',
     plain: '',
 };
 
 const PRESETS = [
+    { id: 'bw', name: '黑白·抱猫', img: () => ASSETS.bw, tone: 'bw' },
     { id: 'ink', name: '水墨·少女', img: () => ASSETS.ink, tone: 'ink' },
     { id: 'clean', name: '水墨·山水', img: () => ASSETS.clean, tone: 'ink' },
     { id: 'back', name: '水墨·背影', img: () => ASSETS.back, tone: 'ink' },
@@ -40,10 +43,10 @@ const PRESETS = [
 
 const DEFAULT = {
     enabled: true,
-    preset: 'ink',
+    preset: 'bw',
     image: '',
     tone: 'ink',        // 自定义图使用浅色还是深色文字
-    pos: 'bottom',      // 收起时的取景：top / center / bottom（展开后自动居中）
+    pos: 'top',         // 收起时的取景：top / center / bottom（展开后自动居中）
     paper: 0.86,        // 纸底不透明度
     dim: 0.12,          // 图片遮罩
     blur: 0,            // 背景模糊
@@ -153,11 +156,13 @@ function apply() {
     lastSig = sig;
 
     const tone = toneOf(e);
-    for (const t of ['ink', 'night', 'sakura', 'plain']) el.classList.remove('nb-theme-' + t);
+    for (const t of ['ink', 'night', 'sakura', 'plain', 'bw']) el.classList.remove('nb-theme-' + t);
     el.classList.add('nb-theme-' + tone);
 
     const img = imgOf(e);
     el.style.setProperty('--nb-img', img ? `url("${img}")` : 'none');
+    // 框架内的内容区底纹：黑白水墨用宣纸山水，其余主题不铺
+    el.style.setProperty('--nb-img2', e.preset === 'bw' ? `url("${ASSETS.paper}")` : 'none');
     el.style.setProperty('--nb-pos', e.pos === 'top' || e.pos === 'bottom' ? e.pos : 'center');
     el.style.setProperty('--nb-paper-a', String(e.paper));
     el.style.setProperty('--nb-dim', String(e.dim));

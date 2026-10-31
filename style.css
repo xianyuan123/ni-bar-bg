@@ -12,7 +12,7 @@ html body #ni-storybar.ni-tb-shell {
     --nb-radius: 16px;
     --nb-dim: 0.12;
     --nb-img: none;
-    --nb-pos: bottom;
+    --nb-pos: top;
     --nb-paper-a: 0.86;
     --nb-serif: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC",
         "Songti TC", "SimSun", "Microsoft YaHei", "PingFang SC", serif;
@@ -98,6 +98,81 @@ html body #ni-storybar.ni-tb-shell.nb-theme-night {
     --nb-ochre: #c9a86a;
     --nb-shell-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 236, 200, 0.10);
     --nb-card-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* 黑白水墨：纸白、墨黑、一点朱砂 */
+html body #ni-storybar.ni-tb-shell.nb-theme-bw {
+    --nb-shell-bg: #fbfaf7;
+    --nb-paper-rgb: 255, 254, 250;
+    --nb-scrim-rgb: 250, 249, 245;
+    --nb-ink: #1b1b1b;
+    --nb-ink-2: #454545;
+    --nb-ink-3: #8c8b86;
+    --nb-line: rgba(20, 20, 20, 0.22);
+    --nb-line-strong: rgba(20, 20, 20, 0.40);
+    --nb-accent: #b8332a;
+    --nb-accent-rgb: 184, 51, 42;
+    --nb-jade: #3f5f57;
+    --nb-jade-rgb: 63, 95, 87;
+    --nb-indigo: #3a4f66;
+    --nb-indigo-rgb: 58, 79, 102;
+    --nb-ochre: #9a7b3f;
+    --nb-shell-shadow: 0 10px 26px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    --nb-card-shadow: 0 6px 18px rgba(0, 0, 0, 0.13);
+
+    /* 把插件自带那套粉/绿也压成墨色，只留一点朱砂 */
+    --ni-warning: #b8332a;
+    --ni-warning-soft: #f3e7e5;
+    --ni-warning-soft-2: #f6f4f0;
+    --ni-warning-alpha-15: rgba(184, 51, 42, 0.15);
+    --ni-warning-alpha-14: rgba(184, 51, 42, 0.14);
+    --ni-warning-alpha-20: rgba(184, 51, 42, 0.20);
+    --ni-warning-alpha-30: rgba(184, 51, 42, 0.30);
+    --ni-warning-alpha-35: rgba(184, 51, 42, 0.35);
+    --ni-warning-alpha-50: rgba(184, 51, 42, 0.50);
+    --ni-primary: #2a2a28;
+    --ni-primary-soft: #ecebe6;
+    --ni-primary-soft-text: #2a2a28;
+    --ni-success-soft: #e9e8e3;
+    --ni-success-text: #4a4a45;
+    --ni-pivot-soft: #ecebe6;
+    --ni-pivot-text: #55524c;
+}
+
+/* 框架内的内容区：铺一层宣纸山水底纹 */
+html body #ni-storybar.ni-tb-shell .ni-tb-body {
+    background-image: var(--nb-img2, none) !important;
+    background-size: cover !important;
+    background-position: center bottom !important;
+    background-repeat: no-repeat !important;
+}
+
+/* 黑白主题：纸帘薄一点，让底纹透出来 */
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-selrow,
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-drop-panel,
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-carousel-wrap,
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-infer-block,
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-off-block,
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-section-hd {
+    background-color: rgba(var(--nb-paper-rgb), 0.50) !important;
+}
+
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-scard {
+    background-color: rgba(var(--nb-paper-rgb), 0.88) !important;
+}
+
+/* 黑白主题：行底色改成墨灰，只在印章/激活处留朱砂 */
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-np-row:hover {
+    background-color: rgba(20, 20, 20, 0.035) !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-np-row.active {
+    background-color: rgba(20, 20, 20, 0.05) !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-np-type,
+html body #ni-storybar.ni-tb-shell.nb-theme-bw .ni-tb-sc-type {
+    background-color: rgba(20, 20, 20, 0.06) !important;
+    color: #3a3a36 !important;
+    border: 1px solid rgba(20, 20, 20, 0.16) !important;
 }
 
 html body #ni-storybar.ni-tb-shell.nb-theme-sakura {
@@ -697,3 +772,44 @@ html body #ni-storybar.ni-tb-shell .ni-tb-off-del:hover {
 .nb-preview .nb-p-meta { font-size: 10px; opacity: 0.7; }
 .nb-hint { font-size: 0.8em; opacity: 0.65; line-height: 1.5; margin-top: 4px; }
 .nb-file { font-size: 0.85em; }
+
+/* ===== NI-ICONS:BEGIN（由 _mk_bw.py 生成，勿手改） ===== */
+html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn > i,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise > i,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free > i,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause > i { display: none !important; }
+
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise > span,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free > span,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause > span { display: none !important; }
+
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause { padding: 5px 9px !important; gap: 0 !important; justify-content: center !important; }
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn::before,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise::before,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free::before,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause::before {
+    content: "" !important; display: block !important; flex: 0 0 auto;
+    width: 15px !important; height: 15px !important;
+    background-color: currentColor;
+    -webkit-mask: var(--nb-ico) center / contain no-repeat;
+    mask: var(--nb-ico) center / contain no-repeat;
+}
+
+html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn#ni-tb-stage-btn { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%20%3Cpath%20d%3D%27M4%206.4v11.2%27%2F%3E%3Cpath%20d%3D%27M20%206.4v11.2%27%2F%3E%20%3Cpath%20d%3D%27M6.3%208.3h11.4v7.4H6.3z%27%2F%3E%20%3Cpath%20d%3D%27M9.2%2013.4l1.9-2.2%201.4%201.5%201.2-1.3%201.6%202%27%2F%3E%3C%2Fsvg%3E"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn#ni-tb-node-btn  { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%20%3Cpath%20d%3D%27M8.4%204.8h7.2a1.5%201.5%200%200%201%200%203H8.4a1.5%201.5%200%200%201%200-3z%27%2F%3E%20%3Cpath%20d%3D%27M8.4%2016.2h7.2a1.5%201.5%200%200%201%200%203H8.4a1.5%201.5%200%200%201%200-3z%27%2F%3E%20%3Cpath%20d%3D%27M12%207.9v8.3%27%2F%3E%3C%2Fsvg%3E"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise            { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%20%3Cpath%20d%3D%27M4%2015.4h9.6a2.9%202.9%200%200%200%20.3-5.8%204.3%204.3%200%200%200-8.2-1A2.7%202.7%200%200%200%204%2015.4z%27%2F%3E%20%3Cpath%20d%3D%27M12.6%2019.1h5.5a2.1%202.1%200%200%200%200-4.2%27%2F%3E%3C%2Fsvg%3E"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free                { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%20%3Cpath%20d%3D%27M5.2%207.4%206.7%203.3l3.2%202.2%27%2F%3E%3Cpath%20d%3D%27M18.8%207.4%2017.3%203.3l-3.2%202.2%27%2F%3E%20%3Cpath%20d%3D%27M5.2%208.4c0%205.7%203%209.2%206.8%209.2s6.8-3.5%206.8-9.2%27%2F%3E%20%3Cpath%20d%3D%27M5.2%208.4c1.5-.9%203.4-1.3%206.8-1.3s5.3.4%206.8%201.3%27%2F%3E%20%3Ccircle%20cx%3D%279.3%27%20cy%3D%2712.3%27%20r%3D%27.95%27%20fill%3D%27%23000%27%20stroke%3D%27none%27%2F%3E%20%3Ccircle%20cx%3D%2714.7%27%20cy%3D%2712.3%27%20r%3D%27.95%27%20fill%3D%27%23000%27%20stroke%3D%27none%27%2F%3E%20%3Cpath%20d%3D%27M12%2015.1v1%27%2F%3E%3Cpath%20d%3D%27M10.9%2016.6h2.2%27%2F%3E%3C%2Fsvg%3E"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause               { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.9%27%20stroke-linecap%3D%27round%27%3E%20%3Cpath%20d%3D%27M9.6%206.6v10.8%27%2F%3E%3Cpath%20d%3D%27M14.4%206.6v10.8%27%2F%3E%3C%2Fsvg%3E"); }
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause.paused        { --nb-ico: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27%23000%27%20stroke%3D%27none%27%3E%20%3Cpath%20d%3D%27M8.6%205.9v12.2l9.8-6.1z%27%2F%3E%3C%2Fsvg%3E"); }
+
+/* 点击/hover 时墨色加深，激活态用朱砂 */
+html body #ni-storybar.ni-tb-shell .ni-tb-sel-btn:hover::before,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise:hover::before,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free:hover::before,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-pause:hover::before { background-color: var(--nb-accent) !important; }
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-juadvise.active::before,
+html body #ni-storybar.ni-tb-shell .ni-tb-btn-free.has-result::before { background-color: var(--nb-accent) !important; }
+/* ===== NI-ICONS:END ===== */
