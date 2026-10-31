@@ -59,6 +59,11 @@ html body #ni-storybar.ni-tb-shell:has(> .ni-tb-body.open) {
     background-position: center, center center !important;
 }
 
+/* 展开时顶栏纸帘加厚，避免压在人物暗部上看不清 */
+html body #ni-storybar.ni-tb-shell:has(> .ni-tb-body.open) .ni-tb-bar {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a) * 0.78)) !important;
+}
+
 /* ---------- 2. 四套配色（浅墨 / 夜墨 / 樱粉 / 素纸） ---------- */
 html body #ni-storybar.ni-tb-shell.nb-theme-ink {
     --nb-shell-bg: #f6f1e6;
