@@ -128,6 +128,80 @@ html body #ni-storybar.ni-tb-shell.nb-theme-night {
     --nb-card-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 
+/* 绘梨衣：朱红和服 + 米白和纸 + 小黄鸭 */
+html body #ni-storybar.ni-tb-shell.nb-theme-eri {
+    --nb-shell-bg: #fdf4ee;
+    --nb-paper-rgb: 255, 250, 245;
+    --nb-scrim-rgb: 253, 244, 238;
+    --nb-ink: #3a2b28;
+    --nb-ink-2: #6b524c;
+    --nb-ink-3: #a08b82;
+    --nb-line: rgba(212, 55, 47, 0.22);
+    --nb-line-strong: rgba(212, 55, 47, 0.42);
+    --nb-accent: #d4372f;
+    --nb-accent-rgb: 212, 55, 47;
+    --nb-duck: #f7c531;
+    --nb-jade: #7c9a6a;
+    --nb-jade-rgb: 124, 154, 106;
+    --nb-indigo: #6f86a0;
+    --nb-indigo-rgb: 111, 134, 160;
+    --nb-ochre: #c9a24a;
+    --nb-shell-shadow: 0 12px 28px rgba(180, 90, 60, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    --nb-card-shadow: 0 6px 18px rgba(180, 90, 60, 0.13);
+
+    /* 把插件自带的粉/绿换成她的朱红与米白 */
+    --ni-warning: #d4372f;
+    --ni-warning-soft: #fbe6e2;
+    --ni-warning-soft-2: #fdf6f2;
+    --ni-warning-alpha-15: rgba(212, 55, 47, 0.15);
+    --ni-warning-alpha-14: rgba(212, 55, 47, 0.14);
+    --ni-warning-alpha-20: rgba(212, 55, 47, 0.20);
+    --ni-warning-alpha-30: rgba(212, 55, 47, 0.30);
+    --ni-warning-alpha-35: rgba(212, 55, 47, 0.35);
+    --ni-warning-alpha-50: rgba(212, 55, 47, 0.50);
+    --ni-primary: #b03026;
+    --ni-primary-soft: #fbeae6;
+    --ni-primary-soft-text: #a02a20;
+    --ni-success-soft: #eef3e6;
+    --ni-success-text: #4d6b3f;
+    --ni-pivot-soft: #f3ebe6;
+    --ni-pivot-text: #705a52;
+}
+
+/* 绘梨衣：底图提一点饱和/对比，别整块发灰 */
+html body #ni-storybar.ni-tb-shell.nb-theme-eri::before {
+    filter: saturate(1.15) contrast(1.05);
+}
+/* 内容区纸帘薄一点，让和纸底纹与裙子颜色透出来 */
+html body #ni-storybar.ni-tb-shell.nb-theme-eri .ni-tb-body {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.22)) !important;
+}
+
+/* 小黄鸭当状态灯 */
+html body #ni-storybar.ni-tb-shell.nb-theme-eri .ni-tb-pin {
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    box-shadow: none !important;
+    background: url('assets/eri-duck.webp') center / contain no-repeat !important;
+}
+
+/* 节点行、标签都垫暖纸，别让字压在人物上 */
+html body #ni-storybar.ni-tb-shell.nb-theme-eri .ni-tb-np-row,
+html body #ni-storybar.ni-tb-shell.nb-theme-eri .ni-tb-sp-row {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.68)) !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-eri .ni-tb-np-row.active {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.92)) !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-eri .ni-tb-np-type,
+html body #ni-storybar.ni-tb-shell.nb-theme-eri .ni-tb-sc-type {
+    background-color: #fbe9e4 !important;
+    color: #9c2a20 !important;
+    border: 1px solid rgba(212, 55, 47, 0.30) !important;
+}
+
 /* 黑白水墨：纸白、墨黑、一点朱砂 */
 html body #ni-storybar.ni-tb-shell.nb-theme-bw {
     --nb-shell-bg: #fbfaf7;
