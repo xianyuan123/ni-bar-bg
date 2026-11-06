@@ -29,10 +29,13 @@ const ASSETS = {
     paper: BASE + 'assets/paper-bw.webp',
     eri: BASE + 'assets/eri-bg.webp',
     eriInner: BASE + 'assets/eri-inner.webp',
+    miko: BASE + 'assets/miko-bg.webp',
+    mikoInner: BASE + 'assets/miko-inner.webp',
     plain: '',
 };
 
 const PRESETS = [
+    { id: 'miko', name: '红发巫女·小黄鸭', img: () => ASSETS.miko, tone: 'miko' },
     { id: 'eri', name: '绘梨衣·小黄鸭', img: () => ASSETS.eri, tone: 'eri' },
     { id: 'bw', name: '黑白·抱猫', img: () => ASSETS.bw, tone: 'bw' },
     { id: 'ink', name: '水墨·少女', img: () => ASSETS.ink, tone: 'ink' },
@@ -46,7 +49,7 @@ const PRESETS = [
 
 const DEFAULT = {
     enabled: true,
-    preset: 'eri',
+    preset: 'miko',
     image: '',
     tone: 'ink',        // 自定义图使用浅色还是深色文字
     pos: 'top',         // 收起时的取景：top / center / bottom（展开后自动居中）
@@ -166,7 +169,7 @@ function apply() {
     const img = imgOf(e);
     el.style.setProperty('--nb-img', img ? `url("${img}")` : 'none');
     // 框架内的内容区底纹：黑白水墨用宣纸山水，其余主题不铺
-    const innerOf = { bw: ASSETS.paper, eri: ASSETS.eriInner };
+    const innerOf = { bw: ASSETS.paper, eri: ASSETS.eriInner, miko: ASSETS.mikoInner };
     el.style.setProperty('--nb-img2', innerOf[e.preset] ? `url("${innerOf[e.preset]}")` : 'none');
     el.style.setProperty('--nb-pos', e.pos === 'top' || e.pos === 'bottom' ? e.pos : 'center');
     el.style.setProperty('--nb-paper-a', String(e.paper));
