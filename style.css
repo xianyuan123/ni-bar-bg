@@ -1057,3 +1057,101 @@ html body #ni-storybar.ni-tb-shell.nb-theme-miko .ni-tb-selrow .ni-tb-btn-juadvi
     color: #a1271e !important;
     box-shadow: inset 0 0 0 1px rgba(216, 55, 44, 0.30) !important;
 }
+
+/* ============ 白发九尾：粉白、桃色点缀 ============ */
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune {
+    --nb-shell-bg: #fdf7f9;
+    --nb-paper-rgb: 255, 250, 252;
+    --nb-scrim-rgb: 253, 246, 249;
+    --nb-ink: #3d2b33;
+    --nb-ink-2: #6b525c;
+    --nb-ink-3: #9c8590;
+    --nb-line: rgba(196, 122, 148, 0.28);
+    --nb-line-strong: rgba(196, 122, 148, 0.48);
+    --nb-accent: #d1557a;
+    --nb-accent-rgb: 209, 85, 122;
+    --nb-jade: #5d8a7a;
+    --nb-jade-rgb: 93, 138, 122;
+    --nb-indigo: #5b6b86;
+    --nb-indigo-rgb: 91, 107, 134;
+    --nb-ochre: #c08a4e;
+    --nb-ico-color: #d1557a;
+    --nb-shell-shadow: 0 12px 30px rgba(160, 96, 120, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    --nb-card-shadow: 0 8px 20px rgba(160, 96, 120, 0.12);
+
+    --ni-warning: #d1557a;
+    --ni-warning-soft: #fce9ef;
+    --ni-warning-soft-2: #fdf4f7;
+    --ni-warning-alpha-15: rgba(209, 85, 122, 0.15);
+    --ni-warning-alpha-14: rgba(209, 85, 122, 0.14);
+    --ni-warning-alpha-20: rgba(209, 85, 122, 0.20);
+    --ni-warning-alpha-30: rgba(209, 85, 122, 0.30);
+    --ni-warning-alpha-35: rgba(209, 85, 122, 0.35);
+    --ni-warning-alpha-50: rgba(209, 85, 122, 0.50);
+    --ni-primary: #7a4358;
+    --ni-primary-soft: #fbe8ee;
+    --ni-primary-soft-text: #8c3b56;
+    --ni-success-soft: #eaf2ee;
+    --ni-success-text: #45685c;
+    --ni-pivot-soft: #f6ecf0;
+    --ni-pivot-text: #6d4c5a;
+}
+
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune::before {
+    filter: saturate(0.96) brightness(1.03);
+}
+
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-bar {
+    background-color: rgba(255, 252, 253, 0.90) !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-selrow,
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-section-hd {
+    background-color: rgba(255, 252, 253, 0.92) !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-body {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.24)) !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-np-row,
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-sp-row {
+    background-color: rgba(var(--nb-paper-rgb), calc(var(--nb-paper-a2) * 0.80)) !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-scard {
+    background-color: rgba(var(--nb-paper-rgb), 0.95) !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-btn-juadvise.active {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(209, 85, 122, 0.50) !important;
+    color: #8c3b56 !important;
+}
+
+/* 按钮图案沿用生图图标 */
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune #ni-tb-stage-btn::before,
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune #ni-tb-node-btn::before,
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-btn-juadvise::before,
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-btn-free::before,
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-btn-pause::before {
+    -webkit-mask: none !important;
+    mask: none !important;
+    background-color: transparent !important;
+    background-size: contain !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    width: 18px !important;
+    height: 18px !important;
+    opacity: 1 !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune #ni-tb-stage-btn::before {
+    background-image: url('icons/miko-stage.webp') !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune #ni-tb-node-btn::before {
+    background-image: url('icons/miko-node.webp') !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-btn-juadvise::before {
+    background-image: url('icons/miko-auto.webp') !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-btn-free::before {
+    background-image: url('icons/miko-free.webp') !important;
+}
+html body #ni-storybar.ni-tb-shell.nb-theme-kitsune .ni-tb-btn-pause::before {
+    background-image: url('icons/miko-pause.webp') !important;
+}
